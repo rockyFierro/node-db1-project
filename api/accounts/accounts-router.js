@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const data = await Accounts.updateById();
+    const data = await Accounts.updateById(req.params.id,req.body);
     res.json(data);
   } catch (error) {
     next(error);
@@ -39,7 +39,7 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
-    const data = await Accounts.deleteById();
+    const data = await Accounts.deleteById(req.params.id);
     res.json(data);
   } catch (error) {
     next(error);

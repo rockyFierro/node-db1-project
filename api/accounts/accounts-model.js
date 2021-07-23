@@ -3,22 +3,16 @@ const database = require('../../data/db-config.js');
 const subj = 'accounts';
 
 const getAll = () => {
-  // DO YOUR MAGIC
-  // const max = 4;
-
   const results =
     database
       .select()
-      .table(subj)
-  // .limit(max);
+      .table(subj);
   return results;
 };
 
 const getById = id => {
-  // DO YOUR MAGIC
   if (!id)
     throw new Error('something has gone wrong');
-
   const results =
     database
       .select()
@@ -39,17 +33,23 @@ const create = async (reqBody) => {
   return results;
 };
 
-const updateById = (id, account) => {
-  // DO YOUR MAGIC
-  return Promise.resolve('PUT wired');
-
+const updateById = async (id, account) => {
+  const updated = await database(subj).where('id', id).update(account);
+  if (updated === 1) {
+    return getById(id);
+  } else {
+    return 'invalid id';
+  }
 };
 
-const deleteById = id => {
-  // DO YOUR MAGIC
-  return Promise.resolve('DELETE wired');
-
-};
+const deleteById = async (id) => {
+    const deleted = await database(subj).where('id',id).del();
+    if (deleted === 1 ) {
+      return getById(id);
+    } else {
+      return 'invalid id';
+    }
+  };
 
 module.exports = {
   getAll,
