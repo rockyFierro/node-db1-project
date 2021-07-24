@@ -34,22 +34,16 @@ const create = async (reqBody) => {
 };
 
 const updateById = async (id, account) => {
-  const updated = await database(subj).where('id', id).update(account);
-  if (updated === 1) {
-    return getById(id);
-  } else {
-    return 'invalid id';
-  }
+  await database(subj).where('id', id).update(account);
+  return getById(id);
+
 };
 
 const deleteById = async (id) => {
-    const deleted = await database(subj).where('id',id).del();
-    if (deleted === 1 ) {
-      return getById(id);
-    } else {
-      return 'invalid id';
-    }
-  };
+  await database(subj).where('id', id).del();
+  return getById(id);
+
+};
 
 module.exports = {
   getAll,
