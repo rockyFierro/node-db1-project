@@ -15,18 +15,22 @@ router.get('/:id', middleware.checkAccountId, async (req, res, next) => {
   res.json(req.account);
 });
 
-router.post('/', middleware.checkAccountPayload,  async (req, res, next) => {
-  try {
-    const data = await Accounts.create(req.body);
-    res.json(data);
-  } catch (error) {
-    next(error);
-  }
-});
+
+router.post('/',
+  [middleware.checkAccountPayload,
+  middleware.checkAccountNameUnique],
+  async (req, res, next) => {
+    try {
+      const data = await Accounts.create(req.body);
+      res.status(201).json(data);
+    } catch (error) {
+      next(error);
+    }
+  });
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const data = await Accounts.updateById(req.params.id,req.body);
+    const data = await Accounts.updateById(req.params.id, req.body);
     res.json(data);
   } catch (error) {
     next(error);

@@ -11,26 +11,19 @@ const getAll = () => {
 };
 
 const getById = id => {
-  if (!id)
-    throw new Error('something has gone wrong');
   const results =
     database
-      .select()
       .table(subj)
       .where('id', id)
       .first();
   return results;
 };
 
-const create = async (reqBody) => {
+const create = async reqBody => {
   const [id] = await
     database(subj)
-      .insert({
-        name: reqBody.name,
-        budget: reqBody.budget,
-      });
-  const results = await getById(id);
-  return results;
+      .insert(reqBody);
+  return getById(id);
 };
 
 const updateById = async (id, account) => {
